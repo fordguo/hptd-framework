@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
  *
  * @author ford
  */
-public interface HptdBuffer {
+public interface HptdByteBuffer {
 
     public static final byte RESERVED = -1;
 

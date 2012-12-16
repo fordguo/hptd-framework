@@ -1,4 +1,4 @@
-package org.hptd.format;
+package org.hptd.utils;
 
 /**
  * the string or byte array contents compression type.

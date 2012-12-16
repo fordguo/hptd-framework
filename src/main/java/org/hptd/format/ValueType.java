@@ -7,7 +7,13 @@ package org.hptd.format;
  * @since 1.0
  */
 public enum ValueType {
-    NULL, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE, CHAR, STRING, BYTE_ARRAY;
+    NULL('n'), BYTE('b'), SHORT('s'), INT('i'), LONG('l'), FLOAT('f'),
+    DOUBLE('d'), CHAR('c'), STRING('t'), BYTE_ARRAY('a');
+    private final char abbrType;
+
+    private ValueType(char abbrType) {
+        this.abbrType = abbrType;
+    }
 
     /**
      * get the value type from byte.
@@ -16,15 +22,70 @@ public enum ValueType {
      * @return ValueType, if not match return the default INT
      */
     public static ValueType valueOf(byte value) {
-        for (ValueType type : ValueType.values()) {
-            if (value == type.ordinal()) {
-                return type;
-            }
+        switch (value) {
+            case 0:
+                return NULL;
+            case 1:
+                return BYTE;
+            case 2:
+                return SHORT;
+            case 3:
+                return INT;
+            case 4:
+                return LONG;
+            case 5:
+                return FLOAT;
+            case 6:
+                return DOUBLE;
+            case 7:
+                return CHAR;
+            case 8:
+                return STRING;
+            case 9:
+                return BYTE_ARRAY;
+            default:
+                return INT;
         }
-        return INT;
+    }
+
+    /**
+     * get the value type from char.
+     *
+     * @param chValue a char type
+     * @return ValueType, if not match return the default INT
+     */
+    public static ValueType valueOf(char chValue) {
+        switch (chValue) {
+            case 'n':
+                return NULL;
+            case 'b':
+                return BYTE;
+            case 's':
+                return SHORT;
+            case 'i':
+                return INT;
+            case 'l':
+                return LONG;
+            case 'f':
+                return FLOAT;
+            case 'd':
+                return DOUBLE;
+            case 'c':
+                return CHAR;
+            case 't':
+                return STRING;
+            case 'y':
+                return BYTE_ARRAY;
+            default:
+                return INT;
+        }
     }
 
     public byte byteValue() {
         return (byte) this.ordinal();
+    }
+
+    public char getAbbrType() {
+        return abbrType;
     }
 }

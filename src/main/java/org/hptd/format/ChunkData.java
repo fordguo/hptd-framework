@@ -2,7 +2,6 @@ package org.hptd.format;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.google.common.primitives.Bytes;
 import org.hptd.utils.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
@@ -18,7 +17,7 @@ import java.util.List;
  *
  * @author ford
  */
-public class ChunkData implements HptdBuffer {
+public class ChunkData implements HptdByteBuffer {
     private final List<DataValue> datas;
 
     public ChunkData(List<DataValue> datas) {
@@ -55,5 +54,9 @@ public class ChunkData implements HptdBuffer {
         all.write(types);
         all.write(dataOut.toByteArray());
         return ByteBufferUtil.bigEndianWrap(all.toByteArray());
+    }
+
+    static public ChunkData valueOf(ByteBuffer buffer) {
+        return null;
     }
 }
