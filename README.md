@@ -1,5 +1,5 @@
 hptd-framework
---------------
+===============
 
 HPTD(High Performance Timestamp-based Data) is a framework only process the time-based column datas.
 
@@ -9,7 +9,7 @@ Here, we deal with the high level interface such as REST/socket APIs,meta data m
 
 
 Chunk Data format
-=================
+-----------------
 
 Name  | Byte Length | Description |
 ----- | ----------- | ------------|
@@ -18,7 +18,7 @@ typeList|var length| the columns type list,a type is a 4 bits value|
 dataList|var length| the data list|
 
 Data Type Table
-=================
+---------------
 
 Name | Value | Abbr Char| Byte Length |
 ---- | ----- | -------- | ----------- |
