@@ -19,6 +19,7 @@ Data Type Table
 ----------------
 
 Name | Value | Abbr Char| Byte Length |
+---- | ----- | -------- | ----------- |
 null|0|n|0|
 byte|1|b|1|
 short|2|s|2|
