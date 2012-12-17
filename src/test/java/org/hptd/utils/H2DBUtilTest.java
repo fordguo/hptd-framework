@@ -13,6 +13,7 @@ import static org.testng.Assert.assertNotNull;
  *
  * @author ford
  */
+
 public class H2DBUtilTest {
     @BeforeMethod
     public void setUp() throws Exception {
@@ -22,7 +23,6 @@ public class H2DBUtilTest {
 
     @AfterMethod
     public void tearDown() throws Exception {
-        H2DBUtil.destroy();
     }
 
     @Test

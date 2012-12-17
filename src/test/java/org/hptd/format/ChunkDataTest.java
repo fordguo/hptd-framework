@@ -15,7 +15,7 @@ import static org.testng.Assert.assertEquals;
 public class ChunkDataTest {
     @Test
     public void testToBuffer() throws Exception {
-        ArrayList d = new ArrayList(4);
+        ArrayList<DataValue> d = new ArrayList<DataValue>(4);
         d.add(new DataValue(ValueType.INT, 1999));
         ChunkData data = new ChunkData(d);
         ByteBuffer buffer = data.toBuffer();
