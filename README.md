@@ -3,7 +3,7 @@ hptd-framework
 
 HPTD(High Performance Timestamp-based Data) is a framework only process the time-based column datas.
 
-The [leveldb]: https://code.google.com/p/leveldb/ is a good framework to process the big data with great performance,so the HPTD's foundation is leveldb.
+The [leveldb](https://code.google.com/p/leveldb/) is a good framework to process the big data with great performance,so the HPTD's foundation is leveldb.
 
 Here, we deal with the high level interface such as REST/socket APIs,meta data management,basic web-ui management.
 
