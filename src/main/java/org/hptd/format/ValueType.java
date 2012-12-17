@@ -88,4 +88,11 @@ public enum ValueType {
     public char getAbbrType() {
         return abbrType;
     }
+
+    public byte combine(ValueType type) {
+        if (type == null)
+            return (byte) ((byteValue() << 4) + 0x0F);
+        else
+            return (byte) ((byteValue() << 4) + type.byteValue());
+    }
 }

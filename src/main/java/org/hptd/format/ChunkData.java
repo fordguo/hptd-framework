@@ -5,6 +5,7 @@ import com.google.common.io.ByteStreams;
 import org.hptd.utils.ByteBufferUtil;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,19 +36,18 @@ public class ChunkData implements HptdByteBuffer {
         byte[] types = new byte[typeLen];
         ByteArrayDataOutput dataOut = ByteStreams.newDataOutput();
         ByteArrayDataOutput all = ByteStreams.newDataOutput();
-        byte tmpType = -1;
+        ValueType preType = null;
         for (int k = 0; k < dataSize; k++) {
             DataValue dataValue = datas.get(k);
             dataValue.writeDataOut(dataOut);
-            byte bType = dataValue.getType().byteValue();
+            ValueType type = dataValue.getType();
             int mod = k % 2;
             if (mod == 1) {
-                types[k >> 1] = (byte) (tmpType << 4 + bType);
-                tmpType = -1;
+                types[k >> 1] = preType.combine(type);
             } else if (mod == 0 && k == dataSize - 1) {
-                types[k >> 1] = (byte) (bType << 4 + 0x0F);
+                types[k >> 1] = type.combine(null);
             } else {
-                tmpType = bType;
+                preType = type;
             }
         }
         all.writeShort(typeLen);
@@ -57,6 +57,21 @@ public class ChunkData implements HptdByteBuffer {
     }
 
     static public ChunkData valueOf(ByteBuffer buffer) {
-        return null;
+        System.out.println(buffer);
+        ArrayList<DataValue> tmpDatas = new ArrayList<DataValue>();
+        int typeLen = buffer.getShort();
+        byte[] types = new byte[typeLen];
+        buffer.get(types);
+        for (byte type : types) {
+            tmpDatas.add(new DataValue(ValueType.valueOf((byte) (type >> 4 & 0x0F))));
+            System.out.println(type);
+            System.out.println(type & 0x0F);
+            if ((type & 0x0F) != 0x0F)
+                tmpDatas.add(new DataValue(ValueType.valueOf((byte) (type & 0x0F))));
+        }
+        for (DataValue tmpData : tmpDatas) {
+            tmpData.readBuffer(buffer);
+        }
+        return new ChunkData(tmpDatas);
     }
 }

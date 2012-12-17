@@ -1,11 +1,13 @@
 package org.hptd.format;
 
+import org.hptd.utils.ByteBufferUtil;
 import org.testng.annotations.Test;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Change me
@@ -22,7 +24,7 @@ public class ChunkDataTest {
         assertEquals(1, buffer.getShort());
         byte[] cols = new byte[1];
         buffer.get(cols);
-        assertEquals(new byte[]{(byte) (ValueType.INT.byteValue() << 4 + 0xF0)}, cols);
+        assertEquals(new byte[]{ValueType.INT.combine(null)}, cols);
         assertEquals(1999, buffer.getInt());
 
         d.add(new DataValue(ValueType.LONG, 8888888l));
@@ -33,15 +35,15 @@ public class ChunkDataTest {
         assertEquals(2, buffer.getShort());
         cols = new byte[2];
         buffer.get(cols);
-        assertEquals(new byte[]{(byte) (ValueType.INT.byteValue() << 4 + ValueType.LONG.byteValue()),
-                (byte) (ValueType.DOUBLE.byteValue() << 4 + ValueType.STRING.byteValue())}, cols);
+        assertEquals(new byte[]{ValueType.INT.combine(ValueType.LONG),
+                ValueType.DOUBLE.combine(ValueType.STRING)}, cols);
         assertEquals(1999, buffer.getInt());
         assertEquals(8888888l, buffer.getLong());
         assertEquals(3.0, buffer.getDouble());
         assertEquals(13, buffer.getShort());
         byte[] tmpBytes = new byte[13];
         buffer.get(tmpBytes);
-        assertEquals("1234567890才", new String(tmpBytes,"UTF-8"));//中文字符占3个字节
+        assertEquals("1234567890才", new String(tmpBytes, "UTF-8"));//中文字符占3个字节
 
         d.add(new DataValue(ValueType.BYTE, 10));
         data = new ChunkData(d);
@@ -49,10 +51,23 @@ public class ChunkDataTest {
         assertEquals(3, buffer.getShort());
         cols = new byte[3];
         buffer.get(cols);
-        assertEquals(new byte[]{(byte) (ValueType.INT.byteValue() << 4 + ValueType.LONG.byteValue()),
-                (byte) (ValueType.DOUBLE.byteValue() << 4 + ValueType.STRING.byteValue()),
-                (byte) (ValueType.BYTE.byteValue() << 4 + 0x0F)}, cols);
+        assertEquals(new byte[]{ValueType.INT.combine(ValueType.LONG),
+                ValueType.DOUBLE.combine(ValueType.STRING), ValueType.BYTE.combine(null)}, cols);
         //2+3  4+8+8+15
         assertEquals(10, buffer.get(40));
+    }
+
+    @Test
+    public void testValueOf() throws Exception {
+        ByteBuffer buffer = ByteBufferUtil.bigEndianAllocate(100);
+        buffer.putShort((short) 2);
+        byte[] types = new byte[]{ValueType.INT.combine(ValueType.LONG),
+                ValueType.DOUBLE.combine(null)};
+        buffer.put(types);
+        buffer.putInt(10).putLong(8888l).putDouble(3.0);
+        buffer.flip();
+        ChunkData data = ChunkData.valueOf(buffer);
+        assertNotNull(data);
+        assertEquals(3, data.getDatas().size());
     }
 }

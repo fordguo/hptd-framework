@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * the each column data information
@@ -15,7 +17,11 @@ import java.io.UnsupportedEncodingException;
 public class DataValue {
     private static Logger logger = LoggerFactory.getLogger(DataValue.class);
     private final ValueType type;
-    private final Object value;
+    private Object value;
+
+    public DataValue(ValueType type) {
+        this(type, null);
+    }
 
     public DataValue(ValueType type, Object value) {
         this.type = type;
@@ -28,6 +34,10 @@ public class DataValue {
 
     public Object getValue() {
         return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     public void writeDataOut(ByteArrayDataOutput dataOutput) {
@@ -70,6 +80,51 @@ public class DataValue {
                 byte[] arrBytes = arryValue();
                 dataOutput.writeShort(arrBytes.length);
                 dataOutput.write(arrBytes);
+                break;
+        }
+    }
+
+    public void readBuffer(ByteBuffer buffer) {
+        switch (type) {
+            case NULL:
+                break;
+            case BYTE:
+                this.value = buffer.get();
+                break;
+            case SHORT:
+                this.value = buffer.getShort();
+                break;
+            case CHAR:
+                this.value = buffer.getChar();
+                break;
+            case INT:
+                this.value = buffer.getInt();
+                break;
+            case LONG:
+                this.value = buffer.getLong();
+                break;
+            case FLOAT:
+                this.value = buffer.getFloat();
+                break;
+            case DOUBLE:
+                this.value = buffer.getDouble();
+                break;
+            case STRING:
+                short strLen = buffer.getShort();
+                byte[] strBytes = new byte[strLen];
+                buffer.get(strBytes);
+                try {
+                    this.value = new String(strBytes, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    logger.error(" wrong encoding with bytes:" + Arrays.asList(strBytes), e);
+                    this.value = null;
+                }
+                break;
+            case BYTE_ARRAY:
+                short arrLen = buffer.getShort();
+                byte[] arrBytes = new byte[arrLen];
+                buffer.get(arrBytes);
+                this.value = arrBytes;
                 break;
         }
     }
