@@ -41,7 +41,7 @@ public class ChunkDataTest {
         assertEquals(13, buffer.getShort());
         byte[] tmpBytes = new byte[13];
         buffer.get(tmpBytes);
-        assertEquals("1234567890才", new String(tmpBytes));//中文字符占3个字节
+        assertEquals("1234567890才", new String(tmpBytes,"UTF-8"));//中文字符占3个字节
 
         d.add(new DataValue(ValueType.BYTE, 10));
         data = new ChunkData(d);

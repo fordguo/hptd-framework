@@ -1,6 +1,10 @@
 package org.hptd.format;
 
 import com.google.common.io.ByteArrayDataOutput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * the each column data information
@@ -9,6 +13,7 @@ import com.google.common.io.ByteArrayDataOutput;
  * @since 1.0
  */
 public class DataValue {
+    private static Logger logger = LoggerFactory.getLogger(DataValue.class);
     private final ValueType type;
     private final Object value;
 
@@ -51,7 +56,13 @@ public class DataValue {
                 dataOutput.writeDouble(doubleValue());
                 break;
             case STRING:
-                byte[] strBytes = stringValue().getBytes();
+                byte[] strBytes = null;
+                try {
+                    strBytes = stringValue().getBytes("UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    logger.error(" wrong encoding with value:" + stringValue(), e);
+                    strBytes = new byte[0];
+                }
                 dataOutput.writeShort(strBytes.length);
                 dataOutput.write(strBytes);
                 break;
