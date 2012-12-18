@@ -69,5 +69,22 @@ public class ChunkDataTest {
         ChunkData data = ChunkData.valueOf(buffer);
         assertNotNull(data);
         assertEquals(3, data.getDatas().size());
+        assertEquals(10, data.getDatas().get(0).intValue());
+        assertEquals(ValueType.LONG, data.getDatas().get(1).getType());
+        assertEquals(ValueType.DOUBLE, data.getDatas().get(2).getType());
+
+        buffer.clear();
+        buffer.putShort((short) 2);
+        types = new byte[]{ValueType.INT.combine(ValueType.LONG),
+                ValueType.DOUBLE.combine(ValueType.STRING)};
+        buffer.put(types);
+        buffer.putInt(10).putLong(8888l).putDouble(3.0);
+        buffer.putShort((short) 4).put("abcd".getBytes());
+        buffer.flip();
+        data = ChunkData.valueOf(buffer);
+        assertEquals(4, data.getDatas().size());
+        assertEquals(ValueType.STRING, data.getDatas().get(3).getType());
+        assertEquals("abcd", data.getDatas().get(3).stringValue());
+
     }
 }

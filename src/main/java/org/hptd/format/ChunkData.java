@@ -57,15 +57,12 @@ public class ChunkData implements HptdByteBuffer {
     }
 
     static public ChunkData valueOf(ByteBuffer buffer) {
-        System.out.println(buffer);
         ArrayList<DataValue> tmpDatas = new ArrayList<DataValue>();
         int typeLen = buffer.getShort();
         byte[] types = new byte[typeLen];
         buffer.get(types);
         for (byte type : types) {
             tmpDatas.add(new DataValue(ValueType.valueOf((byte) (type >> 4 & 0x0F))));
-            System.out.println(type);
-            System.out.println(type & 0x0F);
             if ((type & 0x0F) != 0x0F)
                 tmpDatas.add(new DataValue(ValueType.valueOf((byte) (type & 0x0F))));
         }
