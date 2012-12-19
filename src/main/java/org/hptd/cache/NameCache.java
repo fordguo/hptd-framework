@@ -3,6 +3,7 @@ package org.hptd.cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Weigher;
 import org.hptd.meta.NameMapper;
 import org.hptd.utils.H2DBUtil;
 
@@ -21,6 +22,10 @@ public class NameCache {
         NameCache.nameCacheCount = nameCacheCount;
     }
 
+    public static int getNameCacheCount() {
+        return nameCacheCount;
+    }
+
     public static void init() {
         name2Id = CacheBuilder.newBuilder().maximumSize(nameCacheCount).build(
                 new CacheLoader<String, Long>() {
@@ -37,6 +42,7 @@ public class NameCache {
     }
 
     public static void destroy() {
+        name2Id.cleanUp();
     }
 
     public static long getId(String hptdName) throws ExecutionException {

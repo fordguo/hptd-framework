@@ -19,14 +19,36 @@ import java.util.List;
  * @author ford
  */
 public class ChunkData implements HptdByteBuffer {
+    private long datetime;
     private final List<DataValue> datas;
 
     public ChunkData(List<DataValue> datas) {
+        this(datas, 0);
+    }
+
+    public ChunkData(List<DataValue> datas, long datetime) {
         this.datas = datas;
+        this.datetime = datetime;
     }
 
     public List<DataValue> getDatas() {
         return datas;
+    }
+
+    public long getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(long datetime) {
+        this.datetime = datetime;
+    }
+
+    @Override
+    public String toString() {
+        return "ChunkData{" +
+                "datetime=" + datetime +
+                ", datas=" + datas +
+                '}';
     }
 
     @Override
