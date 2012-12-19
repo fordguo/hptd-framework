@@ -95,5 +95,15 @@
     </dependencies>
     <repositories>
     </repositories>
-
+    <distributionManagement>
+        <repository>
+            <id>ftp-repository</id>
+            <url>${repos.url}</url>
+        </repository>
+    </distributionManagement>
+    <scm>
+        <connection>scm:git:https://github.com/fordguo/hptd-framework.git</connection>
+        <developerConnection>scm:git:https://github.com/fordguo/hptd-framework.git</developerConnection>
+        <url>https://github.com/fordguo/hptd-framework</url>
+    </scm>
 </project>
