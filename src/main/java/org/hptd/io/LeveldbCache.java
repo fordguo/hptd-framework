@@ -42,6 +42,28 @@ public class LeveldbCache {
         });
     }
 
+    public static LevelDbIo getStatHourLeveldb(final String dbName) throws ExecutionException {
+        return getLeveldb(dbName, new Function<Long, Long>() {
+            @Override
+            public Long apply(Long datetime) {
+                DateTime dt = new DateTime(datetime);
+                return new DateTime(dt.getYear(), dt.getMonthOfYear(),
+                        1, 0, 0, 0, 0).getMillis();
+            }
+        });
+    }
+
+    public static LevelDbIo getStatDayLeveldb(final String dbName) throws ExecutionException {
+        return getLeveldb(dbName, new Function<Long, Long>() {
+            @Override
+            public Long apply(Long datetime) {
+                DateTime dt = new DateTime(datetime);
+                return new DateTime(dt.getYear(), 1,
+                        1, 0, 0, 0, 0).getMillis();
+            }
+        });
+    }
+
     public static void destroy() {
         cache.cleanUp();
     }
