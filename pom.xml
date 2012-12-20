@@ -7,9 +7,11 @@
     <groupId>hptd</groupId>
     <artifactId>hptd-framework</artifactId>
     <version>1.0</version>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <packaging>bundle</packaging>
+
+    <name>HPTD :: Framework</name>
+    <description>The HPTD(High Performance Timestamp-based Data) basic framework</description>
+
     <build>
         <plugins>
             <plugin>
@@ -19,6 +21,24 @@
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <Export-Package>
+                            org.hptd.*;version=${project.version}
+                        </Export-Package>
+                        <Import-Package>
+                            *
+                        </Import-Package>
+                    </instructions>
                 </configuration>
             </plugin>
         </plugins>
