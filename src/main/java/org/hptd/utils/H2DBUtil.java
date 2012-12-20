@@ -81,7 +81,9 @@ public class H2DBUtil {
     }
 
     public static void destroy() {
-        cp.dispose();
+        if (cp != null)
+            cp.dispose();
+        cp = null;
     }
 
     public static void saveOrUpdateNameMapper(final NameMapper nameMapper) {
@@ -168,7 +170,7 @@ public class H2DBUtil {
         }
     }
 
-    private static Object executeQuery(String sql, Function<PreparedStatement, Object> function, Function<ResultSet, Object> resultSetObjectFunction) {
+    public static Object executeQuery(String sql, Function<PreparedStatement, Object> function, Function<ResultSet, Object> resultSetObjectFunction) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

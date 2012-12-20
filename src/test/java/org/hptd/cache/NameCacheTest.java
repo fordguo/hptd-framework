@@ -3,11 +3,10 @@ package org.hptd.cache;
 import org.hptd.meta.NameMapper;
 import org.hptd.utils.H2DBUtil;
 import org.hptd.utils.HptdUtil;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * Change me
@@ -15,25 +14,32 @@ import static org.testng.Assert.assertEquals;
  * @author ford
  */
 public class NameCacheTest {
-    @BeforeMethod
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void setUp() throws Exception {
         HptdUtil.setRootPathWithTmp();
-        H2DBUtil.init();
-        H2DBUtil.saveOrUpdateNameMapper(new NameMapper("test", -1, -1));
         NameCache.init();
+        H2DBUtil.saveOrUpdateNameMapper(new NameMapper("test", -1, -1));
     }
 
-    @AfterMethod
-    public void tearDown() throws Exception {
+    @AfterClass
+    public static void tearDown() throws Exception {
+        NameCache.destroy();
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test()
     public void testGetIdWithNoId() throws Exception {
-        Long id = NameCache.getId("testtest");
+        assertEquals(-1l, NameCache.getId("testtest"));
     }
+
     @Test()
     public void testGetId() throws Exception {
         Long id = NameCache.getId("test");
-        assertEquals(1,id.longValue());
+        assertEquals(1, id.longValue());
+    }
+
+    @Test(dependsOnMethods = "testGetId")
+    public void testGetIdWithCreate() throws Exception {
+        Long id = NameCache.getIdWithCreate("test321");
+        assertTrue(id.longValue() > 1);
     }
 }
