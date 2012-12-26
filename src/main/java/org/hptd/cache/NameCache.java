@@ -16,19 +16,22 @@ import java.util.concurrent.ExecutionException;
  * @author ford
  */
 public class NameCache {
+    private static final int DEFAULT_COUNT = 20480;
     private static Logger logger = LoggerFactory.getLogger(NameCache.class);
-    private static int nameCacheCount = 20480;
+    private static int nameCacheCount = DEFAULT_COUNT;
     private static LoadingCache<String, Long> name2Id = null;
 
-    public static void setNameCacheCount(int nameCacheCount) {
-        NameCache.nameCacheCount = nameCacheCount;
-    }
 
     public static int getNameCacheCount() {
         return nameCacheCount;
     }
 
     public static void init() {
+        init(DEFAULT_COUNT);
+    }
+
+    public static void init(int nameCacheCount) {
+        NameCache.nameCacheCount = nameCacheCount;
         H2DBUtil.init();
         name2Id = CacheBuilder.newBuilder().maximumSize(nameCacheCount).build(
                 new CacheLoader<String, Long>() {
