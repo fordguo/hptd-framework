@@ -11,17 +11,11 @@ import java.nio.ByteBuffer;
  * @author ford
  * @since 1.0.2
  */
-public class ByteBufferDataInput implements ByteArrayDataInput {
-    public static final int MAX = 0xFFFF;
+public class ByteBufferDataInput extends BaseByteArrayDataInput{
     private final ByteBuffer byteBuffer;
 
     public ByteBufferDataInput(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
-    }
-
-    @Override
-    public void readFully(byte[] bytes) {
-        byteBuffer.get(bytes);
     }
 
     @Override
@@ -47,19 +41,10 @@ public class ByteBufferDataInput implements ByteArrayDataInput {
         return byteBuffer.get();
     }
 
-    @Override
-    public int readUnsignedByte() {
-        return byteBuffer.get() & MAX;
-    }
 
     @Override
     public short readShort() {
         return byteBuffer.getShort();
-    }
-
-    @Override
-    public int readUnsignedShort() {
-        return byteBuffer.getShort() & MAX;
     }
 
     @Override
@@ -87,13 +72,4 @@ public class ByteBufferDataInput implements ByteArrayDataInput {
         return byteBuffer.getDouble();
     }
 
-    @Override
-    public String readLine() {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public String readUTF() {
-        throw new NotImplementedException();
-    }
 }
