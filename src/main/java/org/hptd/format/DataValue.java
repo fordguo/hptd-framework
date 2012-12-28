@@ -1,5 +1,6 @@
 package org.hptd.format;
 
+import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,35 +85,35 @@ public class DataValue {
         }
     }
 
-    public void readBuffer(ByteBuffer buffer) {
+    public void readDataInput(ByteArrayDataInput dataInput) {
         switch (type) {
             case NULL:
                 break;
             case BYTE:
-                this.value = buffer.get();
+                this.value = dataInput.readByte();
                 break;
             case SHORT:
-                this.value = buffer.getShort();
+                this.value = dataInput.readShort();
                 break;
             case CHAR:
-                this.value = buffer.getChar();
+                this.value = dataInput.readChar();
                 break;
             case INT:
-                this.value = buffer.getInt();
+                this.value = dataInput.readInt();
                 break;
             case LONG:
-                this.value = buffer.getLong();
+                this.value = dataInput.readLong();
                 break;
             case FLOAT:
-                this.value = buffer.getFloat();
+                this.value = dataInput.readFloat();
                 break;
             case DOUBLE:
-                this.value = buffer.getDouble();
+                this.value = dataInput.readDouble();
                 break;
             case STRING:
-                short strLen = buffer.getShort();
+                short strLen = dataInput.readShort();
                 byte[] strBytes = new byte[strLen];
-                buffer.get(strBytes);
+                dataInput.readFully(strBytes);
                 try {
                     this.value = new String(strBytes, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
@@ -121,9 +122,9 @@ public class DataValue {
                 }
                 break;
             case BYTE_ARRAY:
-                short arrLen = buffer.getShort();
+                short arrLen = dataInput.readShort();
                 byte[] arrBytes = new byte[arrLen];
-                buffer.get(arrBytes);
+                dataInput.readFully(arrBytes);
                 this.value = arrBytes;
                 break;
         }

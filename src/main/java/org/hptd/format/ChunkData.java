@@ -88,8 +88,9 @@ public class ChunkData implements HptdByteBuffer {
             if ((type & 0x0F) != 0x0F)
                 tmpDatas.add(new DataValue(ValueType.valueOf((byte) (type & 0x0F))));
         }
+        ByteBufferDataInput byteBufferDataInput = new ByteBufferDataInput(buffer);
         for (DataValue tmpData : tmpDatas) {
-            tmpData.readBuffer(buffer);
+            tmpData.readDataInput(byteBufferDataInput);
         }
         return new ChunkData(tmpDatas);
     }
