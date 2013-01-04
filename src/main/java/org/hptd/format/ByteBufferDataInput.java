@@ -1,9 +1,13 @@
 package org.hptd.format;
 
 import com.google.common.io.ByteArrayDataInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * a date input wrapper with ByteBuffer
@@ -11,7 +15,8 @@ import java.nio.ByteBuffer;
  * @author ford
  * @since 1.0.2
  */
-public class ByteBufferDataInput extends BaseByteArrayDataInput{
+public class ByteBufferDataInput extends BaseByteArrayDataInput {
+    private static Logger logger = LoggerFactory.getLogger(ByteBufferDataInput.class);
     private final ByteBuffer byteBuffer;
 
     public ByteBufferDataInput(ByteBuffer byteBuffer) {
@@ -72,4 +77,16 @@ public class ByteBufferDataInput extends BaseByteArrayDataInput{
         return byteBuffer.getDouble();
     }
 
+    @Override
+    public String readUTF() {
+        short strLen = byteBuffer.getShort();
+        byte[] strBytes = new byte[strLen];
+        byteBuffer.get(strBytes);
+        try {
+            return new String(strBytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error(" wrong encoding with bytes:" + Arrays.asList(strBytes), e);
+            return new String(strBytes);
+        }
+    }
 }

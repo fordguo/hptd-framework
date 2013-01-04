@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /**
  * the each column data information
@@ -111,15 +109,7 @@ public class DataValue {
                 this.value = dataInput.readDouble();
                 break;
             case STRING:
-                short strLen = dataInput.readShort();
-                byte[] strBytes = new byte[strLen];
-                dataInput.readFully(strBytes);
-                try {
-                    this.value = new String(strBytes, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    logger.error(" wrong encoding with bytes:" + Arrays.asList(strBytes), e);
-                    this.value = null;
-                }
+                this.value = dataInput.readUTF();
                 break;
             case BYTE_ARRAY:
                 short arrLen = dataInput.readShort();
