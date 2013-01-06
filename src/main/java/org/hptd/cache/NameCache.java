@@ -41,7 +41,7 @@ public class NameCache {
                         if (mapper != null) {
                             return mapper.getInnerId();
                         } else {
-                            logger.error("can not find id with name:" + s);
+                            logger.info("can not find id with name:" + s);
                             return -1l;
                         }
                     }
