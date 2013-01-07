@@ -74,5 +74,9 @@ public class LevelDbIoTest {
         assertEquals(3,dataValues.size());
         assertEquals(calendar.getTimeInMillis() - 3000000,dataValues.get(0).getDatetime());
         assertEquals(10000,dataValues.get(2).getDatas().get(0).intValue());
+
+        dataValues = leveldbIo.getRange(1, calendar.getTimeInMillis() - 300000000, calendar.getTimeInMillis());
+        assertTrue(dataValues.size() > 0);
+        assertEquals(4,dataValues.size());
     }
 }

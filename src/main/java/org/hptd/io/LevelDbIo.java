@@ -103,7 +103,11 @@ public class LevelDbIo {
         List<ChunkData> datas = new ArrayList<ChunkData>();
         Long newStart = null;
         try {
-            newStart = timeRangeCache.get(hptdId).get(integralFunction.apply(startTime));
+            SortedMap<Long, Long> timeMap = timeRangeCache.get(hptdId);
+            newStart = timeMap.get(integralFunction.apply(startTime));
+            if (newStart == null && timeMap.size() > 0) {
+                newStart = timeMap.get(timeMap.firstKey());
+            }
         } catch (ExecutionException e) {
             logger.error("get datetime error with innerId:" + hptdId);
         }
