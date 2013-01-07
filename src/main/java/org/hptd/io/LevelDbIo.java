@@ -101,7 +101,7 @@ public class LevelDbIo {
 
     public List<ChunkData> getRange(long hptdId, long startTime, long endTime) {
         long datetime = startTime;
-        if (startTime < endTime) {
+        if (startTime > endTime) {
             startTime = endTime;
             endTime = datetime;
         }
