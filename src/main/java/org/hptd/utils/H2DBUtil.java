@@ -177,7 +177,9 @@ public class H2DBUtil {
         try {
             connection = cp.getConnection();
             preparedStatement = connection.prepareStatement(sql);
-            function.apply(preparedStatement);
+            if (function!=null) {
+                function.apply(preparedStatement);
+            }
             resultSet = preparedStatement.executeQuery();
             return resultSetObjectFunction.apply(resultSet);
         } catch (SQLException e) {
