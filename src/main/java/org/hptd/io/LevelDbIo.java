@@ -100,6 +100,11 @@ public class LevelDbIo {
     }
 
     public List<ChunkData> getRange(long hptdId, long startTime, long endTime) {
+        long datetime = startTime;
+        if (startTime < endTime) {
+            startTime = endTime;
+            endTime = datetime;
+        }
         List<ChunkData> datas = new ArrayList<ChunkData>();
         Long newStart = null;
         try {
@@ -121,7 +126,7 @@ public class LevelDbIo {
                 ByteBuffer buffer = ByteBufferUtil.bigEndianWrap(entry.getKey());
                 if (buffer.capacity() < 16) continue;
                 long innerId = buffer.getLong();
-                long datetime = buffer.getLong();
+                datetime = buffer.getLong();
                 if (innerId == hptdId && datetime <= endTime) {
                     ChunkData data = ChunkData.valueOf(ByteBufferUtil.bigEndianWrap(entry.getValue()));
                     data.setDatetime(datetime);
