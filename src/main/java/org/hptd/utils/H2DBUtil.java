@@ -170,7 +170,7 @@ public class H2DBUtil {
         }
     }
 
-    public static Object executeQuery(String sql, Function<PreparedStatement, Object> function, Function<ResultSet, Object> resultSetObjectFunction) {
+    public static <T> T executeQuery(String sql, Function<PreparedStatement,Object> function, Function<ResultSet, T> resultSetObjectFunction) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

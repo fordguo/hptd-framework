@@ -39,6 +39,21 @@ public class DataValue {
         this.value = value;
     }
 
+    public boolean isNumber() {
+        switch (type) {
+            case BYTE:
+            case SHORT:
+            case INT:
+            case LONG:
+            case FLOAT:
+            case DOUBLE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+
     public void writeDataOut(ByteArrayDataOutput dataOutput) {
         switch (type) {
             case NULL:
@@ -146,6 +161,10 @@ public class DataValue {
 
     public double doubleValue() {
         return ((Number) value).doubleValue();
+    }
+
+    public Number numberValue() {
+        return (Number) value;
     }
 
     public String stringValue() {
