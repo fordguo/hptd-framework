@@ -179,6 +179,25 @@ public class DataValue implements Comparable {
                 '}';
     }
 
+    public Number plus(DataValue dataValue) {
+        switch (type) {
+            case BYTE:
+                return byteValue() + dataValue.byteValue();
+            case SHORT:
+                return shortValue() + dataValue.shortValue();
+            case INT:
+                return intValue() + dataValue.intValue();
+            case LONG:
+                return longValue() + dataValue.longValue();
+            case FLOAT:
+                return floatValue() + dataValue.floatValue();
+            case DOUBLE:
+                return doubleValue() + dataValue.doubleValue();
+            default:
+                return 0;
+        }
+    }
+
     @Override
     public int compareTo(Object o) {
         if (value instanceof Comparable) {
