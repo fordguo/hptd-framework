@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
  * @author ford
  * @since 1.0
  */
-public class DataValue {
+public class DataValue implements Comparable {
     private static Logger logger = LoggerFactory.getLogger(DataValue.class);
     private final ValueType type;
     private Object value;
@@ -163,10 +163,6 @@ public class DataValue {
         return ((Number) value).doubleValue();
     }
 
-    public Number numberValue() {
-        return (Number) value;
-    }
-
     public String stringValue() {
         return (String) value;
     }
@@ -181,5 +177,14 @@ public class DataValue {
                 "type=" + type +
                 ", value=" + value +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (value instanceof Comparable) {
+            return ((Comparable) value).compareTo(o);
+        } else {
+            return 0;
+        }
     }
 }
