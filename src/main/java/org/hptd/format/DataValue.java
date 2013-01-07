@@ -179,22 +179,26 @@ public class DataValue implements Comparable {
                 '}';
     }
 
-    public Number plus(DataValue dataValue) {
+    public void plus(DataValue dataValue) {
         switch (type) {
             case BYTE:
-                return byteValue() + dataValue.byteValue();
+                value = byteValue() + dataValue.byteValue();
+                break;
             case SHORT:
-                return shortValue() + dataValue.shortValue();
+                value = shortValue() + dataValue.shortValue();
+                break;
             case INT:
-                return intValue() + dataValue.intValue();
+                value = intValue() + dataValue.intValue();
+                break;
             case LONG:
-                return longValue() + dataValue.longValue();
+                value = longValue() + dataValue.longValue();
+                break;
             case FLOAT:
-                return floatValue() + dataValue.floatValue();
+                value = floatValue() + dataValue.floatValue();
+                break;
             case DOUBLE:
-                return doubleValue() + dataValue.doubleValue();
-            default:
-                return 0;
+                value = doubleValue() + dataValue.doubleValue();
+                break;
         }
     }
 
