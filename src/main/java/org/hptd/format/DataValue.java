@@ -202,22 +202,26 @@ public class DataValue implements Comparable {
         }
     }
 
-    public Number divide(Number number) {
+    public void divide(Number number) {
         switch (type) {
             case BYTE:
-                return byteValue() / number.byteValue();
+                value = byteValue() / number.byteValue();
+                break;
             case SHORT:
-                return shortValue() / number.shortValue();
+                value = shortValue() / number.shortValue();
+                break;
             case INT:
-                return intValue() / number.intValue();
+                value = intValue() / number.intValue();
+                break;
             case LONG:
-                return longValue() / number.longValue();
+                value = longValue() / number.longValue();
+                break;
             case FLOAT:
-                return floatValue() / number.floatValue();
+                value = floatValue() / number.floatValue();
+                break;
             case DOUBLE:
-                return doubleValue() / number.doubleValue();
-            default:
-                return 0;
+                value = doubleValue() / number.doubleValue();
+                break;
         }
     }
 
