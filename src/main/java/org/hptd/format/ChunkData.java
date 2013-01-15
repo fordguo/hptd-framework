@@ -35,6 +35,19 @@ public class ChunkData implements HptdByteBuffer {
         return datas;
     }
 
+    /**
+     * the consolidated number values size
+     *
+     * @return
+     */
+    public int numberSize() {
+        int k = 0;
+        for (DataValue data : datas) {
+            if (data.isNumber()) k++;
+        }
+        return k;
+    }
+
     public long getDatetime() {
         return datetime;
     }

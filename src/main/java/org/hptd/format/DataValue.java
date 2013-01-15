@@ -228,7 +228,7 @@ public class DataValue implements Comparable {
     @Override
     public int compareTo(Object o) {
         if (value instanceof Comparable) {
-            return ((Comparable) value).compareTo(o);
+            return ((Comparable) value).compareTo(((DataValue) o).getValue());
         } else {
             return 0;
         }
