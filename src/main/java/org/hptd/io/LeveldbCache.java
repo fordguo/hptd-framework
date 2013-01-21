@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
  * @author ford
  */
 public class LeveldbCache {
-    private static Cache<String, LevelDbIo> cache = CacheBuilder.newBuilder().maximumSize(4)
+    private static Cache<String, LevelDbIo> cache = CacheBuilder.newBuilder().maximumSize(4).concurrencyLevel(1)
             .removalListener(new RemovalListener<String, LevelDbIo>() {
                 @Override
                 public void onRemoval(RemovalNotification<String, LevelDbIo> objectObjectRemovalNotification) {
