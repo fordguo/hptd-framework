@@ -7,7 +7,7 @@ package org.hptd.format;
  * @since 1.0
  */
 public enum ValueType {
-    NULL('n'), BYTE('b'), SHORT('s'), INT('i'), LONG('l'), FLOAT('f'),
+    NULL('n'), BYTE('b'), SHORT('s'), INT('i'), LONG('l'),TIMESTAMP('m'),FLOAT('f'),
     DOUBLE('d'), CHAR('c'), STRING('t'), BYTE_ARRAY('a');
     private final char abbrType;
 
@@ -34,14 +34,16 @@ public enum ValueType {
             case 4:
                 return LONG;
             case 5:
-                return FLOAT;
+                return TIMESTAMP;
             case 6:
-                return DOUBLE;
+                return FLOAT;
             case 7:
-                return CHAR;
+                return DOUBLE;
             case 8:
-                return STRING;
+                return CHAR;
             case 9:
+                return STRING;
+            case 10:
                 return BYTE_ARRAY;
             default:
                 return INT;
@@ -66,6 +68,8 @@ public enum ValueType {
                 return INT;
             case 'l':
                 return LONG;
+            case 'm':
+                return TIMESTAMP;
             case 'f':
                 return FLOAT;
             case 'd':
