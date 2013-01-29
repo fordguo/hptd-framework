@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 /**
  * the each column data information
@@ -71,6 +72,7 @@ public class DataValue implements Comparable {
                 dataOutput.writeInt(intValue());
                 break;
             case LONG:
+            case TIMESTAMP:
                 dataOutput.writeLong(longValue());
                 break;
             case FLOAT:
@@ -115,6 +117,7 @@ public class DataValue implements Comparable {
                 this.value = dataInput.readInt();
                 break;
             case LONG:
+            case TIMESTAMP:
                 this.value = dataInput.readLong();
                 break;
             case FLOAT:
@@ -165,6 +168,14 @@ public class DataValue implements Comparable {
 
     public String stringValue() {
         return (String) value;
+    }
+
+    public Date dateValue() {
+        if (type == ValueType.TIMESTAMP) {
+            return new Date(longValue());
+        } else {
+            throw new IllegalArgumentException(" the value type is not timestamp!");
+        }
     }
 
     public byte[] arryValue() {
