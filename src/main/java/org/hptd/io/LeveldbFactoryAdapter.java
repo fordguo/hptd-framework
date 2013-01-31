@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class LeveldbFactoryAdapter {
 
-    public static DB getDb(String name) throws IOException {
+    public static synchronized DB getDb(String name) throws IOException {
         Options options = new Options();
         options.createIfMissing(true).verifyChecksums(false).maxOpenFiles(512);
         options.compressionType(CompressionType.SNAPPY);

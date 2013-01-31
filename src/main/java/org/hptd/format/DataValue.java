@@ -117,8 +117,14 @@ public class DataValue implements Comparable {
                 this.value = dataInput.readInt();
                 break;
             case LONG:
-            case TIMESTAMP:
                 this.value = dataInput.readLong();
+                break;
+            case TIMESTAMP:
+                try {
+                    this.value = dataInput.readLong();
+                } catch (NullPointerException e) {
+                    this.value = System.currentTimeMillis();
+                }
                 break;
             case FLOAT:
                 this.value = dataInput.readFloat();
@@ -243,5 +249,19 @@ public class DataValue implements Comparable {
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DataValue dataValue = (DataValue) o;
+        if (!value.equals(dataValue.value)) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
     }
 }

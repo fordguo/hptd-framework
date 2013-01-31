@@ -45,6 +45,7 @@ public class ChunkDataTest {
         buffer.get(tmpBytes);
         assertEquals("1234567890才", new String(tmpBytes, "UTF-8"));//中文字符占3个字节
 
+
         d.add(new DataValue(ValueType.BYTE, 10));
         data = new ChunkData(d);
         buffer = data.toBuffer();
@@ -55,6 +56,16 @@ public class ChunkDataTest {
                 ValueType.DOUBLE.combine(ValueType.STRING), ValueType.BYTE.combine(null)}, cols);
         //2+3  4+8+8+15
         assertEquals(10, buffer.get(40));
+        d.add(new DataValue(ValueType.TIMESTAMP, 654321));
+        data = new ChunkData(d);
+        buffer = data.toBuffer();
+        assertEquals(3, buffer.getShort());
+        cols = new byte[3];
+        buffer.get(cols);
+        assertEquals(new byte[]{ValueType.INT.combine(ValueType.LONG),
+                ValueType.DOUBLE.combine(ValueType.STRING), ValueType.BYTE.combine(ValueType.TIMESTAMP)}, cols);
+        //2+3  4+8+8+15+1
+        assertEquals(654321, buffer.getLong(41));
     }
 
     @Test
