@@ -65,6 +65,7 @@ public class LeveldbCache {
     }
 
     public static void destroy() {
+        cache.invalidateAll();
         cache.cleanUp();
     }
 

@@ -127,6 +127,7 @@ public class LevelDbIo {
                 if (buffer.capacity() < 16) continue;
                 long innerId = buffer.getLong();
                 datetime = buffer.getLong();
+                if (datetime < startTime) continue;
                 if (innerId == hptdId && datetime <= endTime) {
                     ChunkData data = ChunkData.valueOf(ByteBufferUtil.bigEndianWrap(entry.getValue()));
                     data.setDatetime(datetime);
