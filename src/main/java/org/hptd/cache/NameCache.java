@@ -50,6 +50,7 @@ public class NameCache {
 
     public static void destroy() {
         H2DBUtil.destroy();
+        name2Id.invalidateAll();
         name2Id.cleanUp();
     }
 
