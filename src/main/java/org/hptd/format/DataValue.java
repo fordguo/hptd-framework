@@ -84,7 +84,12 @@ public class DataValue implements Comparable {
             case STRING:
                 byte[] strBytes = null;
                 try {
-                    strBytes = stringValue().getBytes("UTF-8");
+                    String strVal = stringValue();
+                    if (strVal == null) {
+                        strBytes = new byte[0];
+                    } else {
+                        strBytes =strVal.getBytes("UTF-8");
+                    }
                 } catch (UnsupportedEncodingException e) {
                     logger.error(" wrong encoding with value:" + stringValue(), e);
                     strBytes = new byte[0];
